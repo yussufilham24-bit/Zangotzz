@@ -723,7 +723,12 @@ Agiza usafiri, delivery, tour na huduma za harusi kupitia ZANGO.
 <div class="section-title">
 Chagua Usafiri
 </div>
-
+<div id="map"></div>
+<script>
+  var map = L.map('map').setView([-6.165, 39.202], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  L.marker([-6.165, 39.202]).addTo(map).bindPopup("Uko hapa - Stone Town").openPopup();
+</script>
 <div class="vehicle-grid">
 
 <div
