@@ -723,23 +723,112 @@ Agiza usafiri, delivery, tour na huduma za harusi kupitia ZANGO.
 <div class="section-title">
 Chagua Usafiri
 </div>
-<div id="map"></div>
-<script>
-  var map = L.map('map').setView([-6.165, 39.202], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(pos){
-      var lat = pos.coords.latitude;
-      var lng = pos.coords.longitude;
-      map.setView([lat, lng], 14);
-      L.marker([lat, lng]).addTo(map).bindPopup("Uko hapa").openPopup();
-    }, function(){
-      L.marker([-6.165, 39.202]).addTo(map).bindPopup("Uko hapa - Stone Town").openPopup();
-    });
-  } else {
-    L.marker([-6.165, 39.202]).addTo(map).bindPopup("Uko hapa - Stone Town").openPopup();
-  }
-</script>
+
+<!-- ZANGO REAL ZANZIBAR MAP -->
+<section class="zango-map-section">
+  <div class="zango-map-heading">
+    <h2>📍 Ramani ya Zanzibar</h2>
+    <button type="button" id="zangoLocateBtn">
+      ◎ Mahali nilipo
+    </button>
+  </div>
+
+  <div id="zangoRealMap">
+    <div class="zango-map-loading">
+      Inapakia ramani ya Zanzibar...
+    </div>
+  </div>
+
+  <p id="zangoMapStatus">
+    Chagua eneo kwenye ramani au tumia mahali ulipo.
+  </p>
+</section>
+
+<style>
+.zango-map-section {
+  width: 100%;
+  margin: 18px 0;
+  font-family: Arial, sans-serif;
+}
+
+.zango-map-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.zango-map-heading h2 {
+  font-size: 22px;
+  margin: 0;
+  color: #171717;
+}
+
+#zangoLocateBtn {
+  background: #fff7ed;
+  color: #f97316;
+  border: 1px solid #f97316;
+  padding: 10px 12px;
+  border-radius: 24px;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#zangoRealMap {
+  width: 100%;
+  height: 430px;
+  min-height: 350px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #d9eaf0;
+  border: 1px solid #eeeeee;
+  z-index: 1;
+}
+
+#zangoRealMap .leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #d9eaf0;
+}
+
+.zango-map-loading {
+  padding: 30px 15px;
+  color: #333;
+  text-align: center;
+}
+
+#zangoMapStatus {
+  font-size: 13px;
+  color: #666;
+  margin: 9px 3px;
+}
+
+.zango-map-pin {
+  background: #f97316;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border: 3px solid white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px #0004;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+}
+
+.leaflet-popup-content {
+  font-size: 14px;
+  line-height: 1.5;
+}
+</style>
 </script>
 <div class="vehicle-grid">
 
