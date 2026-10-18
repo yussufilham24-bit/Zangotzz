@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="sw">
 <head>
 
@@ -726,112 +726,180 @@ Agiza usafiri, delivery, tour na huduma za harusi kupitia ZANGO.
 
 <div class="section-title">
 Chagua Usafiri
-</div>
+<div>
+  
+(function initZangoRealMap() {
+  const mapElement = document.getElementById("zangoRealMap");
 
-<!-- ZANGO REAL ZANZIBAR MAP -->
-<section class="zango-map-section">
-  <div class="zango-map-heading">
-    <h2>📍 Ramani ya Zanzibar</h2>
-    <button type="button" id="zangoLocateBtn">
-      ◎ Mahali nilipo
-    </button>
-  </div>
+  if (!mapElement || typeof L === "undefined") {
+    console.error("ZANGO Map: Leaflet haijapakiwa.");
+    return;
+  }
 
-  <div id="zangoRealMap">
-    <div class="zango-map-loading">
-      Inapakia ramani ya Zanzibar...
-    </div>
-  </div>
+  // Zuia kuanzisha ramani hiyo hiyo mara mbili.
+  if (mapElement._leaflet_id) return;
 
-  <p id="zangoMapStatus">
-    Chagua eneo kwenye ramani au tumia mahali ulipo.
-  </p>
-</section>
+  mapElement.innerHTML = "";
 
-<style>
-.zango-map-section {
-  width: 100%;
-  margin: 18px 0;
-  font-family: Arial, sans-serif;
-}
+  // Katikati ya kisiwa cha Unguja.
+  const zangoMap = L.map("zangoRealMap", {
+    zoomControl: false,
+    scrollWheelZoom: true
+  }).setView([-6.1659, 39.2026], 10);
 
-.zango-map-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 12px;
-}
+  // Ramani halisi ya OpenStreetMap.
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }
+  ).addTo(zangoMap);
 
-.zango-map-heading h2 {
-  font-size: 22px;
-  margin: 0;
-  color: #171717;
-}
+  L.control.zoom({
+    position: "topright"
+  }).addTo(zangoMap);
 
-#zangoLocateBtn {
-  background: #fff7ed;
-  color: #f97316;
-  border: 1px solid #f97316;
-  padding: 10px 12px;
-  border-radius: 24px;
-  font-weight: bold;
-  font-size: 13px;
-  cursor: pointer;
-}
+  // Maeneo muhimu ya Zanzibar.
+  const maeneo = [
+    {
+      jina: "Stone Town",
+      lat: -6.1659,
+      lng: 39.2026
+    },
+    {
+      jina: "Nungwi",
+      lat: -5.7265,
+      lng: 39.2987
+    },
+    {
+      jina: "Kendwa",
+      lat: -5.7535,
+      lng: 39.2889
+    },
+    {
+      jina: "Kiwengwa",
+      lat: -5.9900,
+      lng: 39.3760
+    },
+    {
+      jina: "Paje",
+      lat: -6.2667,
+      lng: 39.5360
+    },
+    {
+      jina: "Jambiani",
+      lat: -6.3150,
+      lng: 39.5460
+    },
+    {
+      jina: "Fumba",
+      lat: -6.3060,
+      lng: 39.2700
+    },
+    {
+      jina: "Bububu",
+      lat: -6.1160,
+      lng: 39.2200
+    }
+  ];
 
-#zangoRealMap {
-  width: 100%;
-  height: 430px;
-  min-height: 350px;
-  border-radius: 22px;
-  overflow: hidden;
-  background: #d9eaf0;
-  border: 1px solid #eeeeee;
-  z-index: 1;
-}
+  maeneo.forEach(function (eneo) {
+    L.marker([eneo.lat, eneo.lng])
+      .addTo(zangoMap)
+      .bindPopup(
+        "<strong>" + eneo.jina + "</strong><br>" +
+        "ZANGO TZ — Zanzibar"
+      );
+  });
 
-#zangoRealMap .leaflet-container {
-  width: 100%;
-  height: 100%;
-  background: #d9eaf0;
-}
+  // Alama ya eneo la mtumiaji.
+  let userMarker = null;
+  let accuracyCircle = null;
 
-.zango-map-loading {
-  padding: 30px 15px;
-  color: #333;
-  text-align: center;
-}
+  const locateButton =
+    document.getElementById("zangoLocateBtn");
 
-#zangoMapStatus {
-  font-size: 13px;
-  color: #666;
-  margin: 9px 3px;
-}
+  const status =
+    document.getElementById("zangoMapStatus");
 
-.zango-map-pin {
-  background: #f97316;
-  color: white;
-  width: 36px;
-  height: 36px;
-  border: 3px solid white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-  font-weight: bold;
-  box-shadow: 0 2px 8px #0004;
-}
+  locateButton.addEventListener("click", function () {
+    if (!navigator.geolocation) {
+      status.textContent =
+        "Simu yako haiungi mkono utambuzi wa mahali ulipo.";
+      return;
+    }
 
-.leaflet-popup-content-wrapper {
-  border-radius: 12px;
-}
+    status.textContent =
+      "Inatafuta mahali ulipo... Ruhusu location kwenye simu yako.";
 
-.leaflet-popup-content {
-  font-size: 14px;
-  line-height: 1.5;
-}
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        const accuracy = position.coords.accuracy;
+
+        if (userMarker) {
+          zangoMap.removeLayer(userMarker);
+        }
+
+        if (accuracyCircle) {
+          zangoMap.removeLayer(accuracyCircle);
+        }
+
+        userMarker = L.circleMarker([lat, lng], {
+          radius: 9,
+          color: "#ffffff",
+          weight: 3,
+          fillColor: "#1685ff",
+          fillOpacity: 1
+        }).addTo(zangoMap);
+
+        userMarker.bindPopup(
+          "<strong>Mahali ulipo</strong><br>" +
+          "Unaweza kuendelea kuchagua huduma ya ZANGO."
+        ).openPopup();
+
+        accuracyCircle = L.circle([lat, lng], {
+          radius: accuracy,
+          color: "#1685ff",
+          weight: 1,
+          fillColor: "#1685ff",
+          fillOpacity: 0.10
+        }).addTo(zangoMap);
+
+        zangoMap.setView([lat, lng], 15);
+
+        status.textContent =
+          "Mahali ulipo pamepatikana. Chagua huduma ya ZANGO.";
+      },
+      function (error) {
+        const messages = {
+          1: "Ruhusu location kwenye simu yako kisha jaribu tena.",
+          2: "Mahali ulipo hapajapatikana. Jaribu tena.",
+          3: "Muda wa kutafuta mahali umeisha. Jaribu tena."
+        };
+
+        status.textContent =
+          messages[error.code] ||
+          "Imeshindikana kupata mahali ulipo.";
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 30000
+      }
+    );
+  });
+
+  // Hakikisha ukubwa wa ramani unalingana na simu.
+  setTimeout(function () {
+    zangoMap.invalidateSize();
+  }, 300);
+
+  window.zangoRealMap = zangoMap;
+})();
 </style>
 </script>
 <div class="vehicle-grid">
