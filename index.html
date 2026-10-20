@@ -728,7 +728,23 @@ Agiza usafiri, delivery, tour na huduma za harusi kupitia ZANGO.
 Chagua Usafiri
 <div>
 
-      
+ <div id="map"></div>
+<script>
+  var map = L.map('map').setView([-6.165, 39.202], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(pos){
+      var lat = pos.coords.latitude;
+      var lng = pos.coords.longitude;
+      map.setView([lat, lng], 14);
+      L.marker([lat, lng]).addTo(map).bindPopup("Uko hapa").openPopup();
+    }, function(){
+      L.marker([-6.165, 39.202]).addTo(map).bindPopup("Uko hapa - Stone Town").openPopup();
+    });
+  } else {
+    L.marker([-6.165, 39.202]).addTo(map).bindPopup("Uko hapa - Stone Town").openPopup();
+  }
+</script>     
 </style>
 </script>
 <div class="vehicle-grid">
