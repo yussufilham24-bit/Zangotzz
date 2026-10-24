@@ -998,6 +998,93 @@ Tuma Delivery
 
 </section>
 
+<!-- ================================
+     ZANGO SHOP
+================================ -->
+
+<section id="page-shop" class="page">
+
+<div class="container">
+
+<div class="section-title">
+<i class="fa-solid fa-cart-shopping orange"></i>
+ZANGO SHOP
+</div>
+
+<p>Chagua bidhaa unazohitaji, weka idadi na utume oda yako.</p>
+
+<div class="form-card">
+
+<label>Jina lako</label>
+<input id="shopName" class="input" placeholder="Andika jina lako">
+
+<label>Namba yako ya simu</label>
+<input id="shopPhone" class="input" type="tel" placeholder="07XXXXXXXX">
+
+<div class="shop-products">
+
+<div class="shop-product">
+<img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop" alt="Mboga na matunda" onerror="this.style.display='none'">
+<h3>Mboga na Matunda</h3>
+<p>Bei: TZS 5,000</p>
+<input class="input shop-qty" type="number" min="0" value="0" data-name="Mboga na Matunda" data-price="5000" placeholder="Idadi">
+</div>
+
+<div class="shop-product">
+<img src="https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?w=500&auto=format&fit=crop" alt="Mchele" onerror="this.style.display='none'">
+<h3>Mchele</h3>
+<p>Bei: TZS 5,000</p>
+<input class="input shop-qty" type="number" min="0" value="0" data-name="Mchele" data-price="5000" placeholder="Idadi">
+</div>
+
+<div class="shop-product">
+<img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=500&auto=format&fit=crop" alt="Vyakula" onerror="this.style.display='none'">
+<h3>Vyakula</h3>
+<p>Bei: TZS 5,000</p>
+<input class="input shop-qty" type="number" min="0" value="0" data-name="Vyakula" data-price="5000" placeholder="Idadi">
+</div>
+
+<div class="shop-product">
+<img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop" alt="Maji ya kunywa" onerror="this.style.display='none'">
+<h3>Maji ya Kunywa</h3>
+<p>Bei: TZS 1,000</p>
+<input class="input shop-qty" type="number" min="0" value="0" data-name="Maji ya Kunywa" data-price="1000" placeholder="Idadi">
+</div>
+
+<div class="shop-product">
+<img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop" alt="Bidhaa za usafi" onerror="this.style.display='none'">
+<h3>Bidhaa za Usafi</h3>
+<p>Bei: TZS 3,000</p>
+<input class="input shop-qty" type="number" min="0" value="0" data-name="Bidhaa za Usafi" data-price="3000" placeholder="Idadi">
+</div>
+
+<div class="shop-product">
+<img src="https://images.unsplash.com/photo-1543168256-418811576931?w=500&auto=format&fit=crop" alt="Bidhaa mbalimbali" onerror="this.style.display='none'">
+<h3>Bidhaa Nyingine</h3>
+<p>Bei: TZS 5,000</p>
+<input class="input shop-qty" type="number" min="0" value="0" data-name="Bidhaa Nyingine" data-price="5000" placeholder="Idadi">
+</div>
+
+</div>
+
+<label>Unapopokea bidhaa</label>
+<input id="shopLocation" class="input" placeholder="Eneo lako, mfano Mwanakwerekwe">
+
+<label>Maelezo ya ziada</label>
+<textarea id="shopDetails" class="input" rows="3" placeholder="Taja aina, ukubwa au bidhaa maalumu unayotaka"></textarea>
+
+<h3>Jumla ya bidhaa: <span id="shopTotal">TZS 0</span></h3>
+
+<button type="button" class="btn btn-orange" onclick="sendShopOrder()">
+Tuma Oda ya SHOP
+</button>
+
+<div id="shopMessage"></div>
+
+</div>
+</div>
+</section>
+
 
 <!-- ================================
      TOUR
